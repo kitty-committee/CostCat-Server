@@ -23,6 +23,9 @@ dependencies {
 
     // This dependency is used by the application.
     implementation(libs.guava)
+
+    implementation(project(":Java-SQL"))
+    implementation(files("libs/AuthCat-Java.jar"))
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
