@@ -25,6 +25,7 @@ dependencies {
     implementation(libs.guava)
 
     implementation(project(":Java-SQL"))
+    implementation(project(":Java-SSL"))
     implementation(files("libs/AuthCat-Java.jar"))
 }
 
