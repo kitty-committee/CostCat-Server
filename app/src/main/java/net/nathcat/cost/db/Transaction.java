@@ -9,11 +9,12 @@ public class Transaction implements DBType {
   public int amount;
   public int group;
   public long timestamp;
+  public String description;
 
   public Transaction() {
   }
 
-  public Transaction(int payer, int payeeCount, int amount, int group) {
+  public Transaction(int payer, int payeeCount, int amount, int group, String description) {
     this.payer = payer;
     this.payeeCount = payeeCount;
     this.amount = amount;

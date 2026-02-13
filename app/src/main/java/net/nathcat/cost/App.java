@@ -18,5 +18,6 @@ public class App {
         ServerConfig.class);
 
     Server server = new Server(config);
+    server.start();
   }
 }

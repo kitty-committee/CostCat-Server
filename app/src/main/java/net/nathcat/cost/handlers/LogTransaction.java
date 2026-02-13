@@ -23,6 +23,7 @@ public class LogTransaction extends ApiHandler {
     public int group;
     public int amount;
     public int[] payees;
+    public String description;
   }
 
   public LogTransaction(Server server, String loggerName) {
@@ -38,7 +39,8 @@ public class LogTransaction extends ApiHandler {
       // If the user is a member of the group, log the transaction and reply with
       // success
       if (Utils.isMemberOfGroup(server.db, user, request.group)) {
-        Transaction t = new Transaction(user.id, request.payees.length, request.amount, request.group);
+        Transaction t = new Transaction(user.id, request.payees.length, request.amount, request.group,
+            request.description);
         Utils.logTransaction(server.db, t, request.payees);
         writeJson(ex, new SuccessResponse());
 

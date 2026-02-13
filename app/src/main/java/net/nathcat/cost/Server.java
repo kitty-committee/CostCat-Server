@@ -18,6 +18,7 @@ import com.sun.net.httpserver.HttpsServer;
 import net.nathcat.authcat.AuthCat;
 import net.nathcat.cost.config.ServerConfig;
 import net.nathcat.cost.handlers.DetermineBalance;
+import net.nathcat.cost.handlers.EditTransaction;
 import net.nathcat.cost.handlers.GetTransactions;
 import net.nathcat.cost.handlers.LogTransaction;
 import net.nathcat.ssl.LetsEncryptProvider;
@@ -72,6 +73,7 @@ public class Server {
     http.createContext("/api/determineBalance", new DetermineBalance(this, "/api/determineBalance"));
     http.createContext("/api/logTransaction", new LogTransaction(this, "/api/logTransaction"));
     http.createContext("/api/getTransactions", new GetTransactions(this, "/api/getTransactions"));
+    http.createContext("/api/editTransaction", new EditTransaction(this, "/api/editTransaction"));
   }
 
   /**

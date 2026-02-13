@@ -245,4 +245,25 @@ public class Utils {
 
     return balance;
   }
+
+  public static Transaction getTransaction(Database db, int id) throws SQLException {
+    Query q;
+    Transaction t;
+
+    try {
+      q = db.newQuery("SELECT * FROM Transactions WHERE id = ?");
+      q.set(1, Integer.class, id).execute();
+
+      Transaction[] results = net.nathcat.sql.Utils.extractResults(q.getResultSet(), Transaction.class);
+      if (results.length != 1)
+        return null;
+      else
+        t = results[0];
+    } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException
+        | NoSuchFieldException e) {
+      throw new RuntimeException(e);
+    }
+
+    return t;
+  }
 }
