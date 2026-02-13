@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -17,10 +18,23 @@ import net.nathcat.logging.Logger;
 import net.nathcat.sql.Utils;
 
 public abstract class ApiHandler implements HttpHandler {
+  public static class SuccessResponse {
+    public String status = "success";
+  }
+
+  public static class FailResponse {
+    public String status = "fail";
+    public String message;
+
+    public FailResponse(String m) {
+      this.message = m;
+    }
+  }
+
   private static final Pattern authCookiePattern = Pattern.compile("\\s*AuthCat-SSO=(?<value>[^;]);");
 
-  private final Server server;
-  private final Logger logger;
+  protected final Server server;
+  protected final Logger logger;
 
   protected ApiHandler(Server server, String loggerName) {
     this.server = server;
@@ -32,6 +46,15 @@ public abstract class ApiHandler implements HttpHandler {
     ex.sendResponseHeaders(code, msg.length());
     OutputStream os = ex.getResponseBody();
     os.write(msg.getBytes());
+    os.close();
+  }
+
+  protected void writeJson(HttpExchange ex, Object obj) throws IOException {
+    Gson gson = new Gson();
+    String json = gson.toJson(obj);
+    ex.sendResponseHeaders(200, json.length());
+    OutputStream os = ex.getResponseBody();
+    os.write(json.getBytes());
     os.close();
   }
 
@@ -73,5 +96,5 @@ public abstract class ApiHandler implements HttpHandler {
     }
   }
 
-  abstract public void handle(HttpExchange ex, User user);
+  abstract public void handle(HttpExchange ex, User user) throws IOException;
 }
