@@ -81,7 +81,7 @@ public class Server {
    *
    * @param code The HTTP code
    * @return The error message for that code specified in the config file. Or
-   *         <code> as a string if not given.
+   *         code as a string if not given.
    */
   public String getErrorMessage(int code) {
     for (ServerConfig.ErrorMessage m : config.httpErrorMessages) {
