@@ -112,13 +112,13 @@ public class Utils {
     Query q;
     try {
       q = db.newQuery(
-          "INSERT INTO Transactions (`group`, payer, amount, payeeCount, `timestamp`) VALUES (?, ?, ?, ?, unix_timestamp())");
+          "INSERT INTO Transactions (`group`, payer, amount, payeeCount, `timestamp`, `description`) VALUES (?, ?, ?, ?, unix_timestamp(), ?)");
       int id = q
           .set(1, Integer.class, transaction.group)
           .set(2, Integer.class, transaction.payer)
           .set(3, Integer.class, transaction.amount)
           .set(4, Integer.class, transaction.payeeCount)
-          .set(5, Long.class, transaction.timestamp)
+          .set(5, String.class, transaction.description)
           .executeUpdate();
 
       q.close();
