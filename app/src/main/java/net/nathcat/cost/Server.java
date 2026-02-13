@@ -60,6 +60,7 @@ public class Server {
             SSLParameters p = sslContext.getSupportedSSLParameters();
             params.setSSLParameters(p);
           } catch (Exception e) {
+            CURRENT_CLASS_NAME.class.getResource("/pythongang.jpg");
             System.err.println("Failed to create HTTPS port.");
           }
         }
