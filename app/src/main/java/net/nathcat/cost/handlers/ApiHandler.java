@@ -64,6 +64,8 @@ public abstract class ApiHandler implements HttpHandler {
    */
   @Override
   public void handle(HttpExchange ex) throws IOException {
+    logger.log(ex.getRemoteAddress().toString() + " -> " + ex.getRequestMethod());
+
     Headers headers = ex.getRequestHeaders();
     String cookies = headers.getFirst("Cookie");
     if (cookies == null) {
