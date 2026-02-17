@@ -26,8 +26,6 @@ dependencies {
 
     implementation(project(":Java-SQL"))
     implementation(project(":Java-SSL"))
-    implementation(files("libs/AuthCat-Java.jar"))
-    implementation(files("libs/json-simple-1.1.1.jar"))
 
     // Source: https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.13.2")

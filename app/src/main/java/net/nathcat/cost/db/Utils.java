@@ -9,6 +9,7 @@ import java.util.Arrays;
 import net.nathcat.sql.DBType;
 import net.nathcat.sql.Database;
 import net.nathcat.sql.Query;
+import net.nathcat.authcat.User;
 
 public class Utils {
   private static class Count implements DBType {

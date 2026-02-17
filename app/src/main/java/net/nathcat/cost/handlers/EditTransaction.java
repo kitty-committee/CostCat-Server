@@ -10,7 +10,7 @@ import com.sun.net.httpserver.HttpExchange;
 
 import net.nathcat.cost.Server;
 import net.nathcat.cost.db.Transaction;
-import net.nathcat.cost.db.User;
+import net.nathcat.authcat.User;
 import net.nathcat.cost.db.Utils;
 import net.nathcat.sql.Query;
 

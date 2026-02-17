@@ -11,8 +11,9 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import net.nathcat.authcat.AuthResult;
+import net.nathcat.authcat.User;
+import net.nathcat.authcat.credentials.CookieSet;
 import net.nathcat.cost.Server;
-import net.nathcat.cost.db.User;
 import net.nathcat.logging.Error;
 import net.nathcat.logging.Logger;
 import net.nathcat.sql.Utils;
@@ -31,7 +32,7 @@ public abstract class ApiHandler implements HttpHandler {
     }
   }
 
-  private static final Pattern authCookiePattern = Pattern.compile("\\s*AuthCat-SSO=(?<value>[^;]);");
+  private static final Pattern authCookiePattern = Pattern.compile("\\s*AuthCat-SSO=(?<value>[^;]*);?");
 
   protected final Server server;
   protected final Logger logger;
@@ -76,13 +77,14 @@ public abstract class ApiHandler implements HttpHandler {
     // Find the auth cookie
     Matcher m = authCookiePattern.matcher(cookies);
     if (m.find()) {
+
       try {
         // Attempt authentication with authcat token
-        AuthResult result = server.authCat.loginWithCookie(m.group("value"));
+        AuthResult result = server.authCat.tryLogin(new CookieSet(m.group("value")));
+
         if (result.result) {
           // If authentication was successful, pass this to the sub handle method
-          User user = Utils.mapToDBType(result.user, User.class);
-          handle(ex, user);
+          handle(ex, result.user);
 
         } else {
           writeError(ex, 403);

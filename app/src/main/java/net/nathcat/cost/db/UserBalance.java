@@ -2,7 +2,10 @@ package net.nathcat.cost.db;
 
 import java.util.HashMap;
 
+import net.nathcat.authcat.User;
+
 /**
+ *
  * Represents the balance of a group.
  *
  */

@@ -1,4 +1,4 @@
-package net.nathcat.cost.db;
+package net.nathcat.authcat;
 
 import net.nathcat.sql.DBType;
 
@@ -14,5 +14,4 @@ public class User implements DBType {
   public String email;
   public String pfpPath;
   public boolean verified;
-  public boolean passwordUpdated;
 }
