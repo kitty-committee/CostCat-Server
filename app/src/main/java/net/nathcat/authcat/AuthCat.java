@@ -51,6 +51,7 @@ public class AuthCat {
     headers.put("Cookie", "AuthCat-SSO=" + cookie.cookie);
 
     HttpResponse ac = http.get(AUTHCAT_ENDPOINT + "/get-session.php", headers);
+
     if (ac.code == 200) {
       if (ac.body.equals("[]"))
         return new AuthResult(false);

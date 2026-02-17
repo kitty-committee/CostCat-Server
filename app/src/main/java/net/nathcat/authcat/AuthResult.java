@@ -10,7 +10,7 @@ public class AuthResult {
   }
 
   protected AuthResult(User user) {
-    this.result = false;
+    this.result = true;
     this.user = user;
   }
 }

@@ -13,5 +13,9 @@ public class User implements DBType {
   public String password;
   public String email;
   public String pfpPath;
-  public boolean verified;
+  public int verified;
+
+  public boolean isVerified() {
+    return verified == 1;
+  }
 }

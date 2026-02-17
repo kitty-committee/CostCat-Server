@@ -2,6 +2,7 @@ package net.nathcat.cost;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
 
@@ -41,9 +42,10 @@ public class Server {
   private final Logger logger = new Logger("Server", System.out);
   private boolean running = false;
 
-  public Server(ServerConfig config) throws IOException {
+  public Server(ServerConfig config) throws IOException, SQLException {
     this.config = config;
     this.db = new Database(config.dbConfig);
+    this.db.connect();
 
     if (config.enableSSL) {
       http = HttpsServer.create(new InetSocketAddress(config.port), 0);

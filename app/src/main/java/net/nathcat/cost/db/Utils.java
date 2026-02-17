@@ -12,8 +12,8 @@ import net.nathcat.sql.Query;
 import net.nathcat.authcat.User;
 
 public class Utils {
-  private static class Count implements DBType {
-    public int count;
+  public static class Count implements DBType {
+    public long count;
   }
 
   /**
