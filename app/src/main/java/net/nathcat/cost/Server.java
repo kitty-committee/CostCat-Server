@@ -24,6 +24,7 @@ import net.nathcat.cost.handlers.GetTransactions;
 import net.nathcat.cost.handlers.LogTransaction;
 import net.nathcat.ssl.LetsEncryptProvider;
 import net.nathcat.logging.Logger;
+import net.nathcat.logging.Warning;
 import net.nathcat.sql.Database;
 
 public class Server {
@@ -69,6 +70,7 @@ public class Server {
       });
     } else {
       http = HttpServer.create(new InetSocketAddress(config.port), 0);
+      logger.log(Warning.class, "Running with SSL disabled!");
     }
 
     http.setExecutor(Executors.newCachedThreadPool());
