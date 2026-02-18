@@ -11,6 +11,4 @@ plugins {
 }
 
 rootProject.name = "CostCat-Server"
-include("app", "Java-SQL", "Java-SSL")
-project(":Java-SQL").projectDir = file("Java-SQL/lib")
-project(":Java-SSL").projectDir = file("Java-SSL/lib")
+include("app")

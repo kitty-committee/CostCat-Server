@@ -13,6 +13,10 @@ plugins {
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+    maven {
+        name = "nathcatRepoReleases"
+        url = uri("https://mvn.nathcat.net/releases")
+    }
 }
 
 dependencies {
@@ -24,8 +28,9 @@ dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
 
-    implementation(project(":Java-SQL"))
-    implementation(project(":Java-SSL"))
+    implementation("net.nathcat:ssl:1.0.0")
+    implementation("net.nathcat:sql:1.0.0")
+    implementation("net.nathcat:api:1.0.0")
 
     // Source: https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.13.2")

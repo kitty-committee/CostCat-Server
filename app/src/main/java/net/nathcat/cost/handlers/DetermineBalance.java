@@ -1,16 +1,14 @@
 package net.nathcat.cost.handlers;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 
-import net.nathcat.cost.Server;
+import net.nathcat.api.Server;
+import net.nathcat.api.handlers.ApiHandler;
 import net.nathcat.authcat.User;
 import net.nathcat.cost.db.UserBalance;
 import net.nathcat.cost.db.Utils;

@@ -9,7 +9,8 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 
-import net.nathcat.cost.Server;
+import net.nathcat.api.Server;
+import net.nathcat.api.handlers.ApiHandler;
 import net.nathcat.cost.db.Transaction;
 import net.nathcat.authcat.User;
 import net.nathcat.cost.db.Utils;
