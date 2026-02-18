@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
@@ -19,24 +20,29 @@ import net.nathcat.cost.db.Utils;
  *
  */
 public class GetTransactions extends ApiHandler {
-  public static class Request {
-    public int group;
-  }
-
   public GetTransactions(Server server, String loggerName) {
-    super(server, loggerName);
+    super(server, loggerName, new String[] { "GET" });
   }
 
   @Override
-  public void handle(HttpExchange ex, User user) throws IOException {
-    InputStream in = ex.getRequestBody();
-    Gson gson = new Gson();
-    Request request = gson.fromJson(new InputStreamReader(in), Request.class);
+  public void handle(HttpExchange ex, User user, Map<String, String> getParams) throws IOException {
+    int group;
+    if (!getParams.containsKey("group")) {
+      writeError(ex, 400);
+      return;
+    }
+    try {
+      group = Integer.parseInt(getParams.get("group"));
+    } catch (NumberFormatException e) {
+      writeError(ex, 400);
+      return;
+    }
+
     try {
       // If the user is a member of the group, get the balance and reply with
       // it
-      if (Utils.isMemberOfGroup(server.db, user, request.group)) {
-        Transaction[] transactions = Utils.getTransactions(server.db, request.group);
+      if (Utils.isMemberOfGroup(server.db, user, group)) {
+        Transaction[] transactions = Utils.getTransactions(server.db, group);
         writeJson(ex, transactions);
       } else {
         writeError(ex, 403);

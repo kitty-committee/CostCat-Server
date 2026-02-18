@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
@@ -23,11 +24,11 @@ public class EditTransaction extends ApiHandler {
   }
 
   public EditTransaction(Server server, String loggerName) {
-    super(server, loggerName);
+    super(server, loggerName, new String[] { "POST" });
   }
 
   @Override
-  public void handle(HttpExchange ex, User user) throws IOException {
+  public void handle(HttpExchange ex, User user, Map<String, String> getParams) throws IOException {
     InputStream in = ex.getRequestBody();
     Gson gson = new Gson();
     Request request = gson.fromJson(new InputStreamReader(in), Request.class);
