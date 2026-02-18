@@ -143,7 +143,7 @@ public class Utils {
     Query q;
     try {
       q = db.newQuery(
-          "SELECT SSO.Users.id as 'id', SSO.Users.username as 'username', SSO.Users.fullName as 'fullName', SSO.Users.pfpPath as 'pfpPath' AS 'count' FROM DataCat.`Groups` JOIN SSO.Users ON SSO.Users.id = `owner` WHERE id = ?");
+          "SELECT SSO.Users.id as 'id', SSO.Users.username as 'username', SSO.Users.fullName as 'fullName', SSO.Users.pfpPath as 'pfpPath' FROM DataCat.`Groups` JOIN SSO.Users ON SSO.Users.id = `owner` WHERE id = ?");
       q
           .set(1, Integer.class, group)
           .execute();
