@@ -2,6 +2,7 @@ package net.nathcat.cost.handlers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -41,6 +42,14 @@ public class GetTransactions extends ApiHandler {
       // it
       if (Utils.isMemberOfGroup(server.db, user, group)) {
         Transaction[] transactions = Utils.getTransactions(server.db, group);
+        for (Transaction t : transactions) {
+          User[] payees = Utils.getTransactionPayees(server.db, t.id);
+          t.payees = new int[payees.length];
+          for (int i = 0; i < payees.length; i++) {
+            t.payees[i] = payees[i].id;
+          }
+        }
+
         writeJson(ex, transactions);
       } else {
         writeError(ex, 403);

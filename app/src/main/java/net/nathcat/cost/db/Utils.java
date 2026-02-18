@@ -103,6 +103,31 @@ public class Utils {
   }
 
   /**
+   * Get the payees of a transaction
+   *
+   * @param db          The database to query
+   * @param transaction The transaction to get the payees of
+   */
+  public static User[] getTransactionPayees(Database db, int transaction) throws SQLException {
+    Query q;
+    User[] users;
+    try {
+      q = db.newQuery(
+          "SELECT SSO.Users.* FROM Payees JOIN SSO.Users ON SSO.Users.id = Payees.`user` WHERE Payees.`transaction` = ?");
+      q
+          .set(1, Integer.class, transaction)
+          .execute();
+      users = net.nathcat.sql.Utils.extractResults(q.getResultSet(), User.class);
+      q.close();
+    } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException
+        | NoSuchFieldException e) {
+      throw new RuntimeException(e);
+    }
+
+    return users;
+  }
+
+  /**
    * Log a new transaction
    *
    * @param db          The database to add to

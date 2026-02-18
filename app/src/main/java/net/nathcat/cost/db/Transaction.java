@@ -10,6 +10,7 @@ public class Transaction implements DBType {
   public int group;
   public long timestamp;
   public String description;
+  public int[] payees;
 
   public Transaction() {
   }
