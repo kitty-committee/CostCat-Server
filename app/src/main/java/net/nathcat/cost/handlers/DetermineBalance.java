@@ -18,7 +18,7 @@ import net.nathcat.cost.db.Utils;
 /**
  * Endpoint handler which determins a user's current overall balance, and their
  * debts to each user of the group. See {@link Response} for response format.
- * See {@link Request} for the request format.
+ * 
  *
  */
 public class DetermineBalance extends ApiHandler {

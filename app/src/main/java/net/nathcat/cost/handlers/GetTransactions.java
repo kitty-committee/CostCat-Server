@@ -16,7 +16,7 @@ import net.nathcat.cost.db.Utils;
 
 /**
  * Get the list of transactions for a group. The endpoint will reply with a JSON
- * array of {@link Transaction} objects. See {@link Request} for request format.
+ * array of {@link Transaction} objects.
  *
  */
 public class GetTransactions extends ApiHandler {
