@@ -1,3 +1,6 @@
 [submodule "libs/apiserver"]
 	path = libs/apiserver
 	url = https://github.com/Nathcat/CPP-API-Server
+[submodule "libs/AuthCat"]
+	path = libs/AuthCat
+	url = https://github.com/Kitty-committee/AuthCat
