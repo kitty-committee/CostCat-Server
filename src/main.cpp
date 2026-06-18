@@ -21,7 +21,8 @@ int main() {
 
   server.registerEndpoints(
       {{"/transaction/new", {nullptr, nathcat::cost::log_transaction}},
-       {"/balances", {nathcat::cost::get_balances, nullptr}}});
+       {"/balances", {nathcat::cost::get_balances, nullptr}},
+       {"/debts", {nathcat::cost::get_debts, nullptr}}});
 
   std::cout << "Ready" << std::endl;
   server.listen("0.0.0.0", 8080);

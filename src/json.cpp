@@ -24,3 +24,9 @@ void nathcat::cost::from_json(const nlohmann::json &j, struct config &c) {
 void nathcat::cost::to_json(nlohmann::json &j, const struct balance &b) {
   j = nlohmann::json{{"user", b.user}, {"amount", b.amount}};
 }
+
+void nathcat::cost::to_json(nlohmann::json &j,
+                            const struct nathcat::cost::debt &d) {
+  j = nlohmann::json{
+      {"creditor", d.creditor}, {"debtor", d.debtor}, {"amount", d.amount}};
+}

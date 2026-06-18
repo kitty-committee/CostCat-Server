@@ -54,6 +54,7 @@ struct debt {
   int amount;
 };
 
+void to_json(nlohmann::json &j, const struct debt &d);
 void to_json(nlohmann::json &j, const struct balance &b);
 void to_json(nlohmann::json &j, const struct transaction_request &t);
 void from_json(const nlohmann::json &j, struct transaction_request &t);
@@ -63,6 +64,14 @@ struct config get_config(std::string path);
 
 void success_response(httplib::Response &res);
 void fail_response(httplib::Response &res, std::string message);
+
+namespace util {
+/**
+ * @brief Get a group's balances from the database
+ */
+std::vector<struct balance> get_balances(std::unique_ptr<sql::Connection> &db,
+                                         int group);
+} // namespace util
 
 /**
  * @brief Find a set of debts which restore equilibrium in a set of balances
@@ -80,7 +89,8 @@ simplify_with_collector(int collector, std::vector<struct balance> balances);
  * @return A 2D array, where each sub-array contains the indexes of elements
  * from set which, when summed, amount to zero.
  */
-std::vector<std::vector<int>> zero_subset_sum(std::vector<int> set);
+std::vector<std::vector<struct balance>>
+zero_subset_sum(std::vector<struct balance> set);
 
 /**
  * @brief Extract a subset from a set using a bitmask
@@ -88,7 +98,8 @@ std::vector<std::vector<int>> zero_subset_sum(std::vector<int> set);
  * @param V The bitmask. 1 indicates an index to include
  * @param set The set to take values from
  */
-std::vector<int> subset(std::uint64_t V, std::vector<int> set);
+std::vector<struct balance> subset(std::uint64_t V,
+                                   std::vector<struct balance> set);
 
 /**
  * @brief Endpoint handler which logs a new transaction.
@@ -99,6 +110,12 @@ void log_transaction(const httplib::Request &req, httplib::Response &res);
  * @brief Endpoint handler which gets the current balances of users in a group
  */
 void get_balances(const httplib::Request &req, httplib::Response &res);
+
+/**
+ * @brief Endpoint which gets the simplified debts which can repay the balances
+ * of a group
+ */
+void get_debts(const httplib::Request &req, httplib::Response &res);
 } // namespace cost
 } // namespace nathcat
 

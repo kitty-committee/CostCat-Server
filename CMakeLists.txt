@@ -17,6 +17,7 @@ target_sources(costcat PUBLIC
   src/simplify_with_collector.cpp
   src/zero_subset_sum.cpp
   src/get_balances.cpp
+  src/get_debts.cpp
 )
 
 target_include_directories(costcat PUBLIC
@@ -33,3 +34,5 @@ target_link_libraries(costcat PUBLIC
   AuthCat-Client
   nlohmann_json::nlohmann_json
 )
+
+install (TARGETS costcat)

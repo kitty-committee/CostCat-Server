@@ -1,17 +1,128 @@
 # CostCat-Server
 
-Welcome to my untested nightmares!
+This, is the C++ remake of the CostCat server. The first full API
+server built with the initial C++ infrastructure of my re-imagined
+tech stack for [nathcat.net](https://nathcat.net).
 
-At the time of writing, it is 1:53am on February 13th, 2026. I have written this entire program
-(up to [this commit](https://github.com/kitty-committee/CostCat-Server/commit/7c717750c63808cdd8eeb3388d2074dcca52c525))
-since I got home from University at about 9pm.
+## Using the server
 
-Needless to say, I can barely keep my eyes open at this point, and I have not tested a _single_ part of this code.
-Just wrote, and kept writing.
+### Dependencies
 
-In any case, this is meant to replace my existing [CostCat](https://github.com/Nathcat/CostCat) application,
-working as the back end API to the front end PWA which is being created by my good friend [Brooke](https://github.com/brooke-ec).
+- MySql C++ connector
 
-It implements all the existing functionality of CostCat, and in addition, allows for transactions to be given
-descriptions, and exposes and endpoint for editing a transaction after it has been created.
+### Building and installation
 
+The following sequence of commands should build and install the server.
+
+```
+cmake -B build
+cmake --build build
+sudo cmake --install build
+```
+
+### Configuration
+
+The server requires a few configuration files:
+
+```
+Assets/
+  authcat_conf.json
+  costcat_conf.json
+```
+
+#### `authcat_conf.json`
+
+```json
+{
+  "hostUrl": "<The domain hosting authcat>"
+}
+```
+
+#### `costcat_conf.json`
+
+```json
+{
+  "dbUrl": "<URL to the MySQL DB>",
+  "dbUsername": "<Username to login to the DB with",
+  "dbPassword": "<Password to login to the DB with"
+}
+```
+
+### Running the server
+
+Once the configuration files are in place, simply run
+
+```
+costcat
+```
+
+To start the server.
+
+# API Documentation
+
+The following rules apply to _all_ endpoints:
+
+- If authentication fails, a `HTTP 403` error is returned.
+- If a different, unspecified error occurs, a `HTTP 500` error is returned, with
+  the error detailed as `text/plain` in the response body.
+
+## `POST /transactions/new?group=<group_id>`
+
+Logs a new transaction to the specified group. The `payer` is automatically chosen as the authenticated
+user.
+
+### Body format
+
+```json
+{
+  "amount": 0, // The value transferred in the transaction
+  "payees": [], // List of payee user IDs
+  "description": "..." // Description of the transaction
+}
+```
+
+### Response
+
+If successful, a `JSON` object is returned with `HTTP 200`:
+
+```json
+{
+  "status": "success"
+}
+```
+
+## `GET /balances?group=<group_id>`
+
+Get the current total balances of the users in a group.
+
+### Response body format
+
+A `JSON` array containing objects of the following format:
+
+```json
+{
+  "user": 0 // The user's ID,
+  "amount": 0 // The user's balance
+}
+```
+
+Note that in the `amount` field, a negative value indicates that the user owes more than they _are_ owed, i.e. that they are in debt, not credit.
+
+## `GET /debts?group=<group_id>`
+
+Get the smallest set of debts required to achieve equilibrium in the group's current balance.
+
+### Response body format
+
+A `JSON` array containing objects of the following format:
+
+```json
+{
+  "creditor": 0 // The ID of the creditor
+  "debtor": 0 // The ID of the debtor
+  "amount": 0 // The amount which must be paid.
+}
+```
+
+Each object implies a transaction which must take place to erase a debt.
+They instruct that the `debtor`, is to pay the `creditor`, `amount`.
