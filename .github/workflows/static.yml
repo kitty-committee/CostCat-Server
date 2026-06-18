@@ -31,19 +31,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Javadoc build
+      - name: Doxygen build
         run: |
           git submodule init
           git submodule update
-          sudo chmod +x ./gradlew
-          ./gradlew javadoc
+          sudo apt install doxygen
+          doxygen doxyfile
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
-          path: ./app/build/docs/javadoc
+          path: docs-out
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
