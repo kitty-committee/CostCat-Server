@@ -13,22 +13,15 @@ int main() {
       nathcat::auth::getConfig<struct nathcat::auth::ClientConfig>(
           "Assets/authcat_conf.json");
 
-  std::cout << "Got AuthCat config, hostUrl is "
-            << nathcat::auth::clientConfig.hostUrl << std::endl;
+  nathcat::cost::config = nathcat::cost::get_config("Assets/costcat_conf.json");
 
-  sql::Driver *driver = sql::mysql::get_driver_instance();
-
-  nathcat::cost::db = std::unique_ptr<sql::Connection>{
-      driver->connect("localhost:3306", "root", "")};
-  nathcat::cost::db->setSchema("CostCat");
-
-  std::cout << "Connected to CostCat DB" << std::endl;
+  std::cout << "All configs loaded" << std::endl;
 
   Server server;
 
   server.registerEndpoint(
       {"/transaction/new", {nullptr, nathcat::cost::log_transaction}});
 
-  server.listen("0.0.0.0", 8080);
   std::cout << "Ready" << std::endl;
+  server.listen("0.0.0.0", 8080);
 }

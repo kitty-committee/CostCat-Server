@@ -62,6 +62,10 @@ void nathcat::cost::log_transaction(const httplib::Request &req,
   int group = std::stoi(req.get_param_value("group"));
 
   try {
+    std::unique_ptr<sql::Connection> db{
+        sqlDriver->connect(config.dbUrl, config.dbUsername, config.dbPassword)};
+    db->setSchema("CostCat");
+
     if (!sqlwrapper::util::isMemberOfGroup(db, user.id, group)) {
       std::cout
           << "\tAuthenticated user is not a member of the specified group."
@@ -79,9 +83,7 @@ void nathcat::cost::log_transaction(const httplib::Request &req,
 
       struct transaction_request t = body.get<struct transaction_request>();
 
-      std::unique_ptr<sql::Statement> stmt{db->createStatement()};
-      stmt->executeUpdate("START TRANSACTION");
-      stmt->close();
+      nathcat::sqlwrapper::start_transaction(db);
 
       // Insert transaction
       std::unique_ptr<sql::PreparedStatement> pStmt{db->prepareStatement(
@@ -98,7 +100,7 @@ void nathcat::cost::log_transaction(const httplib::Request &req,
       pStmt->close();
 
       // Get auto generated key
-      stmt = std::unique_ptr<sql::Statement>{db->createStatement()};
+      std::unique_ptr<sql::Statement> stmt{db->createStatement()};
       std::unique_ptr<sql::ResultSet> rs{
           stmt->executeQuery("SELECT LAST_INSERT_ID() AS 'id'")};
 
@@ -119,9 +121,7 @@ void nathcat::cost::log_transaction(const httplib::Request &req,
 
       success_response(res);
 
-      stmt = std::unique_ptr<sql::Statement>{db->createStatement()};
-      stmt->executeUpdate("COMMIT");
-      stmt->close();
+      nathcat::sqlwrapper::commit_transaction(db);
 
     } catch (std::exception &e) {
       std::cerr << e.what() << std::endl;
@@ -129,10 +129,8 @@ void nathcat::cost::log_transaction(const httplib::Request &req,
       res.status = httplib::StatusCode::InternalServerError_500;
       res.set_content(e.what(), "text/plain");
 
-      std::unique_ptr<sql::Statement> stmt{db->createStatement()};
-      stmt->executeUpdate("ROLLBACK");
-      stmt->close();
-
+      nathcat::sqlwrapper::rollback_transaction(db);
+      db->close();
       return;
     }
   } catch (std::exception &e) {

@@ -10,11 +10,19 @@
 #define AUTHCAT_CLIENT_MODE
 #include <httplib.h>
 #include <jdbc/cppconn/connection.h>
-#include <memory>
+
 namespace nathcat {
 namespace cost {
 
-extern std::unique_ptr<sql::Connection> db;
+extern sql::Driver *sqlDriver;
+
+struct config {
+  std::string dbUrl;
+  std::string dbUsername;
+  std::string dbPassword;
+};
+
+extern struct config config;
 
 struct debt {
   int debtor;
@@ -41,6 +49,9 @@ struct transaction_request {
 
 void to_json(nlohmann::json &j, const struct transaction_request &t);
 void from_json(const nlohmann::json &j, struct transaction_request &t);
+void from_json(const nlohmann::json &j, struct config &c);
+
+struct config get_config(std::string path);
 
 void success_response(httplib::Response &res);
 void fail_response(httplib::Response &res, std::string message);
