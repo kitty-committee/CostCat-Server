@@ -1,5 +1,12 @@
 #include <api/sql.hpp>
 #include <costcat/costcat.hpp>
+#include <memory>
+
+namespace nathcat {
+namespace cost {
+std::unique_ptr<sql::Connection> db = {nullptr};
+}
+} // namespace nathcat
 
 template <>
 struct nathcat::cost::debt

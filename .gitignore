@@ -21,3 +21,5 @@ CMakeUserPresets.json
 .cache
 build
 docs-out
+test
+Assets

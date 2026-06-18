@@ -5,6 +5,8 @@
 #ifndef _COSTCAT
 #define _COSTCAT
 
+#include <nlohmann/json.hpp>
+#include <vector>
 #define AUTHCAT_CLIENT_MODE
 #include <httplib.h>
 #include <jdbc/cppconn/connection.h>
@@ -12,7 +14,7 @@
 namespace nathcat {
 namespace cost {
 
-static std::unique_ptr<sql::Connection> db;
+extern std::unique_ptr<sql::Connection> db;
 
 struct debt {
   int debtor;
@@ -24,6 +26,18 @@ struct total {
   int user;
   int amount;
 };
+
+struct transaction_request {
+  int amount;
+  std::vector<int> payees;
+  std::string description;
+};
+
+void to_json(nlohmann::json &j, const struct transaction_request &t);
+void from_json(const nlohmann::json &j, struct transaction_request &t);
+
+void success_response(httplib::Response &res);
+void fail_response(httplib::Response &res, std::string message);
 
 /**
  * @brief Endpoint handler which logs a new transaction.

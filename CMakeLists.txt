@@ -10,7 +10,10 @@ add_executable(costcat src/main.cpp)
 
 target_sources(costcat PUBLIC
   src/db.cpp
+  src/json.cpp
   src/log_transaction.cpp
+  src/auth.cpp
+  src/basic_responses.cpp
 )
 
 target_include_directories(costcat PUBLIC
@@ -19,9 +22,11 @@ target_include_directories(costcat PUBLIC
   libs/apiserver/libs/mysql/include
   libs/apiserver/libs/httplib
   libs/AuthCat/include
+  libs/AuthCat/libs/json/include
 )
 
 target_link_libraries(costcat PUBLIC
   apiserver
   AuthCat-Client
+  nlohmann_json::nlohmann_json
 )
