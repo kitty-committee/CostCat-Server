@@ -20,14 +20,7 @@ struct nathcat::cost::config nathcat::cost::get_config(std::string path) {
 }
 
 template <>
-struct nathcat::cost::debt
+struct nathcat::cost::balance
 nathcat::sqlwrapper::fromRow(std::unique_ptr<sql::ResultSet> &res) {
-  return {res->getInt("debtor"), res->getInt("creditor"),
-          res->getInt("amount")};
-}
-
-template <>
-struct nathcat::cost::total
-nathcat::sqlwrapper::fromRow(std::unique_ptr<sql::ResultSet> &res) {
-  return {res->getInt("user"), res->getInt("amount")};
+  return {res->getInt("user"), res->getInt("balance")};
 }

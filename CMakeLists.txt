@@ -14,6 +14,9 @@ target_sources(costcat PUBLIC
   src/log_transaction.cpp
   src/auth.cpp
   src/basic_responses.cpp
+  src/simplify_with_collector.cpp
+  src/zero_subset_sum.cpp
+  src/get_balances.cpp
 )
 
 target_include_directories(costcat PUBLIC
