@@ -27,6 +27,12 @@ struct total {
   int amount;
 };
 
+/**
+ * @class transaction_request
+ * @brief Specifies the request format for the body of requests to
+ * log_transaction
+ *
+ */
 struct transaction_request {
   int amount;
   std::vector<int> payees;
