@@ -119,6 +119,32 @@ void nathcat::cost::log_transaction(const httplib::Request &req,
         pStmt->close();
       }
 
+      // Update running totals
+      // Do the payer first
+      pStmt = std::unique_ptr<sql::PreparedStatement>{db->prepareStatement(
+          "INSERT INTO RunningTotals (`user`, `group`, `balance`) values (?, "
+          "?, ?) on duplicate key update `balance` = `balance` + values "
+          "(`balance`)")};
+
+      pStmt->setInt(1, user.id);
+      pStmt->setInt(2, group);
+      pStmt->setInt(3, t.amount);
+      pStmt->executeUpdate();
+      pStmt->close();
+
+      // And now the payees (who are now in debt to the payer)
+      for (int i = 0; i < t.payees.size(); i++) {
+        pStmt = std::unique_ptr<sql::PreparedStatement>{db->prepareStatement(
+            "INSERT INTO RunningTotals (`user`, `group`, `balance`) values (?, "
+            "?, ?) on duplicate key update `balance` = `balance` + values "
+            "(`balance`)")};
+        pStmt->setInt(1, t.payees[i]);
+        pStmt->setInt(2, group);
+        pStmt->setInt(3, -t.amount);
+        pStmt->executeUpdate();
+        pStmt->close();
+      }
+
       success_response(res);
 
       nathcat::sqlwrapper::commit_transaction(db);
