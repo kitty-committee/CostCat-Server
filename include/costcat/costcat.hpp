@@ -21,6 +21,7 @@ struct config {
   std::string dbUrl;
   std::string dbUsername;
   std::string dbPassword;
+  int port;
 };
 
 extern struct config config;

@@ -24,6 +24,7 @@ int main() {
        {"/balances", {nathcat::cost::get_balances, nullptr}},
        {"/debts", {nathcat::cost::get_debts, nullptr}}});
 
-  std::cout << "Ready" << std::endl;
-  server.listen("0.0.0.0", 8080);
+  std::cout << "Ready - Server is running on http://localhost:"
+            << nathcat::cost::config.port << std::endl;
+  server.listen("0.0.0.0", nathcat::cost::config.port);
 }
