@@ -52,7 +52,7 @@ void nathcat::cost::get_debts(const httplib::Request &req,
 
     if (balances.size() == 0) {
       res.status = httplib::StatusCode::OK_200;
-      res.set_content(nlohmann::json().dump(), "application/json");
+      res.set_content(nlohmann::json({}).dump(), "application/json");
       return;
     }
 
