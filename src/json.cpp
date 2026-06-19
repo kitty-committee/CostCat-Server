@@ -19,6 +19,7 @@ void nathcat::cost::from_json(const nlohmann::json &j, struct config &c) {
   j.at("dbUrl").get_to(c.dbUrl);
   j.at("dbUsername").get_to(c.dbUsername);
   j.at("dbPassword").get_to(c.dbPassword);
+  j.at("port").get_to(c.port);
 }
 
 void nathcat::cost::to_json(nlohmann::json &j, const struct balance &b) {
