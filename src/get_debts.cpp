@@ -50,6 +50,12 @@ void nathcat::cost::get_debts(const httplib::Request &req,
     std::vector<struct cost::balance> balances =
         cost::util::get_balances(db, group);
 
+    if (balances.size() == 0) {
+      res.status = httplib::StatusCode::OK_200;
+      res.set_content(nlohmann::json().dump(), "application/json");
+      return;
+    }
+
     std::vector<std::vector<struct cost::balance>> subsets =
         zero_subset_sum(balances);
 

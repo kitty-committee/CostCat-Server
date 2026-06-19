@@ -18,6 +18,9 @@ nathcat::cost::subset(std::uint64_t V, std::vector<struct balance> set) {
 
 std::vector<std::vector<struct balance>>
 nathcat::cost::zero_subset_sum(std::vector<struct balance> set) {
+  if (set.size() == 0)
+    return {};
+
   assert(set.size() < 64);
   std::uint64_t V = 1;
   std::uint64_t maxV = ((1 << (set.size() - 1)) * 2) - 1;
