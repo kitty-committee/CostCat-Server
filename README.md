@@ -44,7 +44,8 @@ Assets/
 {
   "dbUrl": "<URL to the MySQL DB>",
   "dbUsername": "<Username to login to the DB with",
-  "dbPassword": "<Password to login to the DB with"
+  "dbPassword": "<Password to login to the DB with",
+  "port": <Port the server should listen on
 }
 ```
 
